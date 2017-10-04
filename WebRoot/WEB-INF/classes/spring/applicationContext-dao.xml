@@ -15,7 +15,7 @@
 	<!-- 记载db.properties文件中的内容，db.properties文件中的key命名要有一定的特殊规则 -->
 	<context:property-placeholder location="classpath:"/>
 	<!-- 配置数据源 -->
-	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
@@ -27,7 +27,7 @@
 	<!-- sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 配置数据库连接池 -->
-		<property name="dataSource" ref="datasource"/>
+		<property name="dataSource" ref="dataSource"/>
 		<!-- 加载mybatis的全局配置文件 -->
 		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"/>
 	</bean>
