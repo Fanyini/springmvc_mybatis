@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 全局的setting配置，根据需求添加 -->
+	<!-- <settings></settings> -->
+	
+	<!-- 配置别名 -->
+	<typeAliases>
+		<package name="cn.ztx.ssm.mapper" />
+	</typeAliases>
+	
+	<!-- 
+		配置mapper
+		由于使用spring和mybatis的整合包进行mapper扫描，所以这里不需要配置
+		必须遵循：mapper.xml 和 mapper.java文件同名且在一个文件夹下
+	 -->
+	<!-- <mappers></mappers> -->
+</configuration>
