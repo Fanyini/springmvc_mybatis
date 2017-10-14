@@ -10,7 +10,11 @@
 
 </head>
 <body> 
-
+	<c:if test="${allErrors != null }">	
+		<c:forEach items="${allErrors }" var="error">
+			${error.defaultMessage}
+		</c:forEach>
+	</c:if>
 <form id="itemForm" action="${pageContext.request.contextPath }/items/editItemsSubmit.action" method="post" >
 <input type="hidden" name="id" value="${itemsCustom.id }"/>
 修改商品信息：

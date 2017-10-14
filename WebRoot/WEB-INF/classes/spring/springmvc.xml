@@ -13,41 +13,61 @@
 		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
-    <!-- 通过扫描器来进行组件扫描 -->
-    <!-- 指定扫描的包 -->
+	<!-- 通过扫描器来进行组件扫描 -->
+	<!-- 指定扫描的包 -->
 	<context:component-scan base-package="cn.ztx.ssm.controller"></context:component-scan>
-	
-	<!-- 
-    	使用mvc:annotation-driven代替上边注解映射器和注解适配器配置
-    	mvc:annotation-driven 默认加载很多参数绑定的方法
-    	比如使用json转换解析器默认加载，如果使用mvc:annotation-driven不用配置RequestMappingHandlerMapping和RequestMappingHandlerAdapter
-    	实际开发中使用mvc:annotation-driven
-    -->
-    <!-- 添加自定义的参数绑定 -->
-	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
-	
+
+	<!-- 使用mvc:annotation-driven代替上边注解映射器和注解适配器配置 mvc:annotation-driven 默认加载很多参数绑定的方法 
+		比如使用json转换解析器默认加载，如果使用mvc:annotation-driven不用配置RequestMappingHandlerMapping和RequestMappingHandlerAdapter 
+		实际开发中使用mvc:annotation-driven -->
+	<!-- 添加自定义的参数绑定 -->
+	<mvc:annotation-driven conversion-service="conversionService" validator="validator"></mvc:annotation-driven>
+
 	<!-- 自定义参数绑定 -->
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<!-- 转换器 -->
 		<property name="converters">
 			<list>
-				<bean class="cn.ztx.ssm.controller.converter.CustomDateConverter"/>
+				<bean class="cn.ztx.ssm.controller.converter.CustomDateConverter" />
 			</list>
 		</property>
 	</bean>
-	
-   	<!-- 配置注解映射器 -->
+
+	<!-- 配置注解映射器 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean> -->
 	<!-- 注解的适配器 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean> -->
-	
-    
-    <!-- 视图解析器 -->
-    <!-- 解析jsp，默认使用jstl标签，classpath下的所有jstl的包 -->
+
+
+	<!-- 视图解析器 -->
+	<!-- 解析jsp，默认使用jstl标签，classpath下的所有jstl的包 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- 配置jsp路径的前缀 -->
-		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="prefix" value="/WEB-INF/jsp/" />
 		<!-- 配置jsp路径的后缀 -->
-		<property name="suffix" value=".jsp"/>
+		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<!-- 校验器 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- hibernate校验器 -->
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	
+	<!-- 校验错误信息配置文件 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 资源文件名 -->
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomValidationMessages</value>
+			</list>
+		</property>
+		<!-- 资源文件编码格式 -->
+		<property name="fileEncodings" value="utf-8" />
+		<!-- 对资源文件内容缓存时间，单位秒 -->
+		<property name="cacheSeconds" value="120" />
+	</bean>
+
 </beans>
